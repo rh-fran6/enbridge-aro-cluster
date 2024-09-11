@@ -9,6 +9,9 @@ cluster_sp_object_id_key: spObjectId
 pull_secret_akv_key: pullSecret
 installer_clientid: AccntclientId
 installer_clientsecret: AccntclientSecret
+registryusername: acrUsername
+registrypassword: acrPassword
+registryhostname: acrName
 
 
 ## Cluster Tags. Max of 10 tags
@@ -38,7 +41,7 @@ vnet:
     resourcegroup: storageaccountrg
     access_tier: Hot
     kind: FileStorage
-    public_ip: "75.158.42.195"
+    public_ip: "x.xx.xx.xx"
     privendpointname: storageaccountname190-pe
     nfs_sharename: fileshare
     min_tls_version: "TLS1_0"
@@ -48,7 +51,7 @@ vnet:
 
 cluster:
   conditionals:
-    create_network_vnet_and_subnets: True
+    create_network_vnet_and_subnets: False
     specify_custom_domain: True
     specify_version: True
     specify_disk_encryption_set: False
@@ -62,13 +65,13 @@ cluster:
   name: ansible-aro-cluster-1
   cluster_resource_group:  ansible-aro-main-1   
   location: eastus
-  domain: odf1
+  domain: devcluster02
   policy_definition: aro-policy-def
   version: "4.14.16"
   control_instance: Standard_D8s_v3
   worker_disk: 128
   worker_node_count: 3 
-  worker_instance: Standard_D16s_v3 #Standard_D4s_v3 
+  worker_instance: Standard_D16s_v5 
   subscription_id: ee0bc28d-c3d4-4efa-a187-c959a251e5f2
   disk_encryption_set: ""
   network:
@@ -76,9 +79,9 @@ cluster:
     control_subnet_name: ansible-aro-cluster-control-subnet-1
     worker_subnet_name: ansible-aro-cluster-worker-subnet-1
     vnet_rg: aro-cluster-network-rg-1
-    outbound_type: Loadbalancer  
-    ingress_visibility: Public
-    api_visibility: Public
+    outbound_type: UserDefinedRouting  
+    ingress_visibility: Private
+    api_visibility: Private
     pod_cidr: 10.128.0.0/14
     service_cidr: 172.32.0.0/16  
 
@@ -105,6 +108,9 @@ integrations:
       akvname: azureMonitorSharedKey
   imagemirror:
     enabled: true
+  imageregistry:
+    add: true
+    secretname: registry-secret-name
 
 
 installer:
