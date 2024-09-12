@@ -112,11 +112,6 @@ integrations:
     add: true
     secretname: registry-secret-name
 
-
-installer:
-  subscription_id: "18abddda-12e6-42e6-95f2-eef38ba20750"
-  tenant_id: "redhat0.onmicrosoft.com"
-
 storageclass:
   create: true
 
