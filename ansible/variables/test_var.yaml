@@ -7,12 +7,11 @@ cluster_tenant_id_key: tenantId
 cluster_subscription_id_key: subId
 cluster_sp_object_id_key: spObjectId
 pull_secret_akv_key: pullSecret
-installer_clientid: AccntclientId
-installer_clientsecret: AccntclientSecret
-registryusername: acrUsername
-registrypassword: acrPassword
-registryhostname: acrName
-
+installer_clientid: ID #AccntclientId
+installer_clientsecret: SECRET #AccntclientSecret
+imageRegistryHostnameKey: acrName
+imageRegistryUsernameKey: acrUsername
+imageRegistryPasswordKey: acrPassword
 
 ## Cluster Tags. Max of 10 tags
 tags: 
@@ -41,7 +40,7 @@ vnet:
     resourcegroup: storageaccountrg
     access_tier: Hot
     kind: FileStorage
-    public_ip: "x.xx.xx.xx"
+    public_ip: "0.0.0.0"
     privendpointname: storageaccountname190-pe
     nfs_sharename: fileshare
     min_tls_version: "TLS1_0"
@@ -51,7 +50,7 @@ vnet:
 
 cluster:
   conditionals:
-    create_network_vnet_and_subnets: False
+    create_network_vnet_and_subnets: false
     specify_custom_domain: True
     specify_version: True
     specify_disk_encryption_set: False
@@ -62,26 +61,28 @@ cluster:
     create_azure_policy_for_tags: True
     enable_fips: False
     use_aro_sp: True
+    install_with_sp: true
+    create_cluster_resource_group: false
+    assign_rbac_roles: false
   name: ansible-aro-cluster-1
-  cluster_resource_group:  ansible-aro-main-1   
+  cluster_resource_group:  placeholderrg   
   location: eastus
-  domain: devcluster02
+  domain: odf1
   policy_definition: aro-policy-def
   version: "4.14.16"
   control_instance: Standard_D8s_v3
   worker_disk: 128
   worker_node_count: 3 
-  worker_instance: Standard_D16s_v5 
-  subscription_id: ee0bc28d-c3d4-4efa-a187-c959a251e5f2
+  worker_instance: Standard_D16s_v3 #Standard_D4s_v3 
   disk_encryption_set: ""
   network:
-    vnet_name: ansible-aro-cluster-vnet-1
-    control_subnet_name: ansible-aro-cluster-control-subnet-1
-    worker_subnet_name: ansible-aro-cluster-worker-subnet-1
-    vnet_rg: aro-cluster-network-rg-1
-    outbound_type: UserDefinedRouting  
-    ingress_visibility: Private
-    api_visibility: Private
+    vnet_name: aro-vnet-m00o63yq
+    control_subnet_name: master-subnet
+    worker_subnet_name: worker-subnet
+    vnet_rg: aro-main
+    outbound_type: Loadbalancer  
+    ingress_visibility: Public
+    api_visibility: Public
     pod_cidr: 10.128.0.0/14
     service_cidr: 172.32.0.0/16  
 
