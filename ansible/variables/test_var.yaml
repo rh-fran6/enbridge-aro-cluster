@@ -12,6 +12,9 @@ installer_clientsecret: AccntclientSecret  # SECRET #
 imageRegistryHostnameKey: acrName
 imageRegistryUsernameKey: acrUsername
 imageRegistryPasswordKey: acrPassword
+masEntitlementKey: masEntitlement
+masLicenseIdKey: masLicenseId
+masLicenseKey: masLicense
 
 ## Cluster Tags. Max of 10 tags
 tags: 
@@ -133,7 +136,7 @@ storageaccount:
   kind: FileStorage
   sku: Premium_LRS
   accesstier: Hot
-  min_tls_version: "TLS1_0"
+  min_tls_version: "TLS1_2"
   publicaccess: "Disabled"
   privendpointname: masstorageaccountpe
   block:
@@ -148,12 +151,12 @@ storageaccount:
     nfs_sharename: masfileshare
 
 imagemirror:
-  - source: ghcr.io/external-secrets10/external-secrets
+  - source: ghcr.io/external-secrets/external-secrets
     mirror: 
-      - acr.com/external-secrets10/external-secrets
-  - source: ghcr.io/grafana/grafana-operator10
+      - acr.com/external-secrets/external-secrets
+  - source: ghcr.io/grafana/grafana-operator
     mirror: 
-      - acr.com/grafana10/grafana-operator10
+      - acr.com/grafana/grafana-operator
 
 autoscaler:
   ## Bring up cluster when value is false, then change to true and update machineset list 
@@ -170,3 +173,19 @@ autoscaler:
     - mas-aro-cluster-wfgpz-worker-eastus1
     - mas-aro-cluster-wfgpz-worker-eastus2
     - mas-aro-cluster-wfgpz-worker-eastus3
+
+## MAS Variable
+mas:
+  prepare_install: true
+  instance_id: mas1
+  config_dir: $PWD/ansible/artefacts
+  license_file: $PWD/artefacts/license.dat
+  dro_email: <mas registration email>
+  dro_firstname: <installer first name>
+  dro_lastname: <installer lastname>
+  prometheus_alert_storageclass: managed-csi
+  prometheus_storageclass: azurefiles-premium
+  prometheus_user_storageclass: azurefiles-premium
+  grafana_storageclass: azurefiles-premium
+  mongodb_storageclass: azurefiles-premium
+  uds_storageclass: azurefiles-premium
