@@ -66,7 +66,7 @@ cluster:
     create_azure_policy_for_tags: True
     enable_fips: False
     use_aro_sp: True
-    install_with_sp: true
+    use_installer_sp: true
     create_cluster_resource_group: true
     assign_rbac_roles: true
   name: mas-aro-cluster
